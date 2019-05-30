@@ -26,7 +26,7 @@ public class ChessBoard extends JPanel {
 	int[][] boardStatus;// 记录棋盘 0:无棋子，1：黑棋子，2：白棋子
 
 	// 棋子设置
-	Chess[] chessList = new Chess[100];
+	Chess[] chessList = new Chess[300];
 	int chessCount; // 棋子数目
 	int manChessCount;
 	int computerChessCount;

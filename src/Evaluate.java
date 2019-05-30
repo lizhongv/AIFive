@@ -8,9 +8,9 @@ public class Evaluate {
 	private static final int HUO_TWO = 50;// 活二
 
 	// 位置权重
-	private int[][] blackValue;// 保存每一空位下黑子的价值
-	private int[][] whiteValue;// 保存每一空位下白子的价值
-	private int[][] staticValue;// 保存每一点的位置价值
+	private int[][] blackValue;// 棋盘每一空位下黑子的价值
+	private int[][] whiteValue;// 棋盘每一空位下白子的价值
+	private int[][] staticValue;// 棋盘每一点的位置价值
 
 	private ChessBoard cb;
 
@@ -25,7 +25,7 @@ public class Evaluate {
 				whiteValue[i][j] = 0;
 			}
 		}
-		for (int i = 0; i <= ChessBoard.COLS / 2; i++) {
+		for (int i = 0; i <= ChessBoard.COLS / 2; i++) {// 棋盘各个位置的价值分数
 			for (int j = 0; j <= ChessBoard.ROWS / 2; j++) {
 				staticValue[i][j] = i < j ? i : j;
 				staticValue[ChessBoard.COLS - i][j] = staticValue[i][j];
@@ -35,8 +35,8 @@ public class Evaluate {
 		}
 	}
 
-	// 空位的价值=黑棋的价值+白棋的价值+位置价值
 	int[] getTheBestPosition() {// 查找计算机下棋的最佳位置
+		// *****空位的价值=黑棋的价值+白棋的价值+位置价值******
 		for (int i = 0; i <= cb.COLS; i++) {
 			for (int j = 0; j <= cb.ROWS; j++) {
 				blackValue[i][j] = 0;
@@ -70,12 +70,13 @@ public class Evaluate {
 		}
 		int r = (int) (Math.random() * k);// 多个点同时具有最大得分，随机选取一个作为最佳点
 		int[] position = new int[2];
-		position[0] = totalValue[r][0];
-		position[1] = totalValue[r][1];
+		position[0] = totalValue[r][0];// 列坐标
+		position[1] = totalValue[r][1];// 行坐标
 		return position;
 	}
 
-	private int evaluateValue(int color, int col, int row, int dir) {// 棋子放入指定位置，在指定方向上得到7个变量情况
+	private int evaluateValue(int color, int col, int row, int dir) {
+		// 指定空位置，指定方向，指定颜色棋子 可能形成的棋型价值的总和
 		int k, m;
 		int value = 0;
 		// 空数4 连数3 空数3 下棋位置:连棋数1 空数1 连棋数2 空数2
@@ -290,7 +291,7 @@ public class Evaluate {
 	}
 
 	private int getValue(int chessCount1, int chessCount2, int chessCount3, int spaceCount1, int spaceCount2,
-			int spaceCount3, int spaceCount4) {// 根据7个变量，得到相应的棋型
+			int spaceCount3, int spaceCount4) {// 根据7个变量判断棋型，得到价值分数
 		int value = 0;
 
 		switch (chessCount1) {
@@ -349,7 +350,7 @@ public class Evaluate {
 		return value;
 	}
 
-	private void sort(int[][] allValue) {// 使用冒泡排序法
+	private void sort(int[][] allValue) {// 使用冒泡排序法对价值分数降序排序
 		for (int i = 0; i < allValue.length - 1; i++) {
 			for (int j = 0; j < allValue.length - 1; j++) {
 				int ti, tj, tvalue;
